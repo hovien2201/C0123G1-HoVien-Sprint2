@@ -56,7 +56,7 @@ export function Header() {
           </li>
           <li>
             <a className="nav-link scrollto" href="#about">
-              Fan
+              Abouts
             </a>
           </li>
           <li>
@@ -66,7 +66,7 @@ export function Header() {
           </li>
           <li>
             <a className="nav-link scrollto " href="#portfolio">
-              Portfolio
+              Fan
             </a>
           </li>
           <li>

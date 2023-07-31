@@ -4,6 +4,7 @@ import { Header } from './component/header/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Footer } from './component/footer/Footer';
 import { Login } from './component/login/Login';
+import { Content } from './component/body/Content';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <Header />
     <Routes>
       <Route path='/login' element={<Login />}/>
+      <Route path='/' element={<Content />}/>
     </Routes>
     <Footer />
     </>
