@@ -1,4 +1,8 @@
 import { Carousel } from 'react-bootstrap';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Link } from 'react-router-dom';
+
 export function Details() {
   return (
     <>
@@ -62,31 +66,17 @@ export function Details() {
                         </div>
 
                       </div>
-                      <div className="d-flex" >
-                        <div className="full" style={{ paddingTop: "2%", marginRight: "5%", marginLeft: "10%" }} title="Back Home">
-                          <a class="back-icon" href="#">
-                            <div class="back-icon__row">
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                            </div>
-                            <div class="back-icon__row">
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                            </div>
-                            <div class="back-icon__row">
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                              <div class="back-icon__elem"></div>
-                            </div>
-                          </a>
+                      <div className="d-flex" style={{marginTop:"5%"}}>
+                        <div className="full" style={{  marginRight: "10%", marginLeft: "10%" }} title="Back Home">
+                         <Link to='/'>
+                            <ArrowBackIcon style={{fontSize:"200%"}}/>
+                         </Link>
                         </div>
                         <div className="full">
 
-                          <a href="#" style={{ fontSize: "200%" }} title="Add to Cart">
-                            <i class="bi bi-plus-lg"></i>
-                          </a>
+                        <Link to='/'>
+                            <AddShoppingCartIcon style={{fontSize:"200%"}}/>
+                         </Link>
 
                         </div>
                       </div>
