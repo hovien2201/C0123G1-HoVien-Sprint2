@@ -6,7 +6,7 @@ import { Footer } from './component/footer/Footer';
 import { Login } from './component/login/Login';
 import { Content } from './component/body/Content';
 import { Details } from './component/body/Details';
-import { ShopingCart } from './component/body/ShopingCart';
+import { ShoppingCart } from './component/body/ShoppingCart';
 
 
 function App() {
@@ -16,8 +16,8 @@ function App() {
     <Routes>
       <Route path='/login' element={<Login />}/>
       <Route path='/' element={<Content />}/>
-      <Route path='/details' element={<Details />}/>
-      <Route path='/cart' element={<ShopingCart />}/>
+      <Route path='/details/:id' element={<Details />}/>
+      <Route path='/cart' element={<ShoppingCart />}/>
     </Routes>
     <Footer />
     </>

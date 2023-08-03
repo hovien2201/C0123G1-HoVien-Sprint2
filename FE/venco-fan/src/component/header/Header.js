@@ -12,7 +12,11 @@ export function Header() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState();
   const token = localStorage.getItem('token');
+const [expanded, setExpanded] = useState(false);
 
+  const handleToggle = () => {
+    setExpanded(!expanded);
+  };
   // const [decodedToken, setDecodedToken] = useState("");
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -44,7 +48,7 @@ export function Header() {
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
             <h1>
-              <NavLink to='/'>Venco Fan</NavLink>
+              <NavLink to='/'><img src='https://png.pngtree.com/png-vector/20190927/ourlarge/pngtree-propeller-graphic-design-template-vector-isolated-png-image_1748296.jpg' ></img>VENCO FAN</NavLink>
             </h1>
             {/* Uncomment below if you prefer to use an image logo */}
             {/* <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>*/}
@@ -52,81 +56,38 @@ export function Header() {
           <nav id="navbar" className="navbar">
             <ul >
               <li>
-                <a className="nav-link scrollto active" href="#hero">
-                  Home
+                <NavLink className="nav-link scrollto active" to='/'>
+                  HOME
+                </NavLink>
+              </li>
+              <li>
+                <a className="nav-link scrollto" href="#hero">
+                  ABOUTS
                 </a>
               </li>
               <li>
-                <a className="nav-link scrollto" href="#about">
-                  Abouts
+                <a className="nav-link scrollto" href="#fan">
+                PRODUCTS
                 </a>
               </li>
               <li>
-                <a className="nav-link scrollto" href="#services">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a className="nav-link scrollto " href="#portfolio">
-                  Fan
+                <a className="nav-link scrollto " href="#ctservicecmsblock">
+                  SERVICE
                 </a>
               </li>
               <li>
                 <a className="nav-link scrollto" href="#team">
-                  Team
+                  TEAM
                 </a>
-              </li>
-              
-              <li className="dropdown">
-                <a href="#">
-                  <span>Drop Down</span> <i className="bi bi-chevron-down" />
-                </a>
-                <ul>
-                  <li>
-                    <a href="#">Drop Down 1</a>
-                  </li>
-                  <li className="dropdown">
-                    <a href="#">
-                      <span>Deep Drop Down</span>{" "}
-                      <i className="bi bi-chevron-right" />
-                    </a>
-                    <ul>
-                      <li>
-                        <a href="#">Deep Drop Down 1</a>
-                      </li>
-                      <li>
-                        <a href="#">Deep Drop Down 2</a>
-                      </li>
-                      <li>
-                        <a href="#">Deep Drop Down 3</a>
-                      </li>
-                      <li>
-                        <a href="#">Deep Drop Down 4</a>
-                      </li>
-                      <li>
-                        <a href="#">Deep Drop Down 5</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 3</a>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 4</a>
-                  </li>
-                </ul>
-              </li>
+              </li>         
               <li>
                 <a className="nav-link scrollto" href="#contact">
-                  Contact
+                  CONTACT
                 </a>
               </li>
               <li style={{
                 display: "flex", textAlign: "center",
-                alignItems: "center", fontWeight: "300", marginLeft: "5%"
+                alignItems: "center", fontWeight: "300"
               }}>
                 {isLogin ?
                   (
@@ -159,15 +120,15 @@ export function Header() {
                   :
                   (
                     <>
-                      <NavLink to="/login" className='font-a-header btn btn-outline-info'
-                        style={{ fontSize: '20px', padding: "5% 5% 5% 5%" }}><i class="bi bi-person" style={{ fontSize: '25px', }}></i>Login</NavLink>
+                      <NavLink to="/login" className='font-a-header '
+                        ><i class="bi bi-person" style={{ fontSize: '20px', }}></i>LOGIN</NavLink>
 
                     </>
                   )
                 }
               </li>
               <NavLink to='/cart' title='Shoping Cart'>
-              <ShoppingCartOutlinedIcon style={{marginLeft:"10%"}} />
+              <ShoppingCartOutlinedIcon style={{marginLeft:"10%"}} />CART
               </NavLink>
               
             </ul>

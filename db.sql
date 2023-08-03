@@ -18,13 +18,8 @@ role_id INT NOT NULL,FOREIGN KEY(role_id) REFERENCES roles(id)
 
  CREATE TABLE type_product(
  id INT PRIMARY KEY AUTO_INCREMENT,
-type_name VARCHAR(50) UNIQUE NOT NULL
+`name` VARCHAR(50) UNIQUE NOT NULL
  );
-
-CREATE TABLE img_product(
-id INT PRIMARY KEY AUTO_INCREMENT,
-img TEXT  NOT NULL
-);
 
 CREATE TABLE products(
 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -35,20 +30,24 @@ is_delete BIT DEFAULT 0,
 descrip VARCHAR(1000),
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 update_date DATETIME,
-type_product INT NOT NULL,FOREIGN KEY(type_product) REFERENCES type_product(id),
-img_id INT NOT NULL,FOREIGN KEY(img_id) REFERENCES img_product(id)
+type_product INT NOT NULL,FOREIGN KEY(type_product) REFERENCES type_product(id)
 );
 
+CREATE TABLE img_product(
+id INT PRIMARY KEY AUTO_INCREMENT,
+img TEXT  NOT NULL,
+product_id INT NOT NULL,FOREIGN KEY(product_id) REFERENCES products(id)
+);
 create table customers(
 id INT PRIMARY KEY AUTO_INCREMENT,
-`name` varchar(255) not null,
+`name` varchar(50) not null,
 birthday varchar(50) not null,
 user_id INT NOT NULL,
 FOREIGN KEY(user_id) REFERENCES users(id),
 gender int not null,
 phone_number varchar(11) NOT NULL  UNIQUE ,
-email varchar(255) not null UNIQUE,
-address varchar(255) not null,
+email varchar(50) not null UNIQUE,
+address varchar(50) not null,
 image TEXT ,
 is_delete BIT DEFAULT 0,
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -79,10 +78,11 @@ comments VARCHAR(1000),
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE shoping_cart(
+CREATE TABLE shopping_cart(
 id INT PRIMARY KEY AUTO_INCREMENT,
 product_id INT NOT NULL,FOREIGN KEY(product_id) REFERENCES products(id),
 quantity INT NOT NULL,
-price DOUBLE NOT NULL,
-bill_id  INT NOT NULL,FOREIGN KEY(bill_id) REFERENCES bills(id)
+customer_id INT NOT NULL,FOREIGN KEY(customer_id) REFERENCES customers(id),
+price DOUBLE NOT NULL
 );
+
