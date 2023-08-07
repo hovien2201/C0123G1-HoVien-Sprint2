@@ -24,7 +24,7 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public ResponseEntity<Products> getDetailProduct(@PathVariable("id") Integer id){
         try{
             return new ResponseEntity<>(iProductService.getProduct(id),HttpStatus.OK);

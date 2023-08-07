@@ -1,7 +1,63 @@
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import React, { useEffect, useState } from "react";
+import * as service from '../../service/Service';
+import Swal from "sweetalert2";
 export function ShoppingCart() {
+    const [quantity, setQuantity] = useState(1)
+    const [shoppingCart, setShoppingCart] = useState([])
+    const [totalPriceAll, setTotalPriceAll] = useState(0)
+    const [totalQuantity, setTotalQuantity] = useState(0)
+    const getCart = async () => {
+        const result = await service.getShoppingcart()
+        await setShoppingCart(result)
+        setTotalQuantity(0)
+        setTotalPriceAll(0)
+        await result.map(async(val, index) => {            
+                await setTotalQuantity(total => total+ val.quantity)
+                await setTotalPriceAll(total => total +val.price)
+        })
+        
+
+    
+    }
+    const setTotalQ = async (q) => {
+        await setTotalQuantity(q+totalQuantity)
+    }
+    const editQuantity = async (val, id, vQuantity) => {
+        if (vQuantity > 1 || val == 1) {
+            await service.setShoppingcart(val, id);
+            getCart();
+        }
+
+    }
+    const deleteShoppingCart = async (id) => {
+        await service.deleteShoppingcart(id)
+        Swal.fire({
+            icon: "success",
+            title: "Delete Cart success",
+            timer: "3000"
+        })
+        getCart()
+    }
+    const deleteCart = async (id, name) => {
+        Swal.fire({
+            icon: "warning",
+            title: `Do you want to remove a product named <span class='al'> ${name} </span> from the cart?`,
+            showCancelButton: true,
+            confirmButtonText: "Oke"
+        })
+            .then((rs) => {
+                if (rs.isConfirmed) {
+                    deleteShoppingCart(id)
+                }
+            })
+    }
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        getCart()
+    }, []);
     return (
         <>
             <div className="container" style={{ marginTop: "7%" }}>
@@ -22,51 +78,35 @@ export function ShoppingCart() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <img className="pic"
-                                            src="https://tcorder.vn/wp-content/uploads/2021/05/quat-mini-cam-tay-ban-nhieu-tren-shopee-3.jpg"
-                                            alt="" />
-                                    </td>
-                                    <td>Fan F1.2</td>
-                                    <td >$ 200</td>
-                                    <td>
-                                        <div className="d-flex">
-                                            <button type="button" className="minus"><span>-</span></button>
-                                            <input type="number" id="quantity_64c88c2c676ec"
-                                                className="input" step="1" min="0" max />
-                                            <button type="button" value="+" className="plus"><span>+</span></button>
-                                        </div>
-                                    </td>
-                                    <td>$ 200</td>
-                                    <td>
-                                        <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }}></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img className="pic"
-                                            src="https://tcorder.vn/wp-content/uploads/2021/05/quat-mini-cam-tay-ban-nhieu-tren-shopee-3.jpg"
-                                            alt="" />
-                                    </td>
-                                    <td>Fan wall E19.6</td>
-                                    <td>$ 200</td>
-                                    <td>
-                                        <div className="d-flex">
-                                            <button type="button" className="minus"><span>-</span></button>
-                                            <input type="number" id="quantity_64c88c2c676ec"
-                                                className="input" step="1" min="0" max
-                                                name="cart[9c994526d37b56cd609f904822ffbe53][qty]" value="1"
-                                                title="SL" size="4" placeholder inputMode="numeric"
-                                                fdprocessedid="pr6xgp" />
-                                            <button type="button" value="+" className="plus"><span>+</span></button>
-                                        </div>
-                                    </td>
-                                    <td>$ 200</td>
-                                    <td>
-                                        <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }}></i></a>
-                                    </td>
-                                </tr>
+
+                                {shoppingCart ? (shoppingCart.map((value, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <img className="pic"
+                                                src={value.products.image}
+                                                alt="" />
+                                        </td>
+                                        <td>{value.products.name}</td>
+                                        <td>$ {value.products.price}</td>
+                                        <td>
+                                            <div className="d-flex">
+                                                <div className="d-flex">
+                                                    <button type="button" className="minus" onClick={() => editQuantity(0, value.id, value.quantity)}><span>-</span></button>
+                                                    <input value={value.quantity}
+                                                        className="input" min="0" />
+                                                    <button type="button" value="+" className="plus" onClick={() => editQuantity(1, value.id, value.quantity)}><span>+</span></button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>$ {value.price}</td>
+                                        <td>
+                                            <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name)}></i></a>
+                                        </td>
+                                    </tr>
+                                ))) : (<>
+                                    <h4>No products</h4>
+                                </>)}
+
                             </tbody>
                         </table>
                     </div>
@@ -74,9 +114,10 @@ export function ShoppingCart() {
                         <div class="stack">
                             <div class="card">
                                 <div class="image" >
-                                    <h2 style={{ textAlign: "center", marginBottom: "10%",color:"#61dafb" }}>Payment order</h2>
-                                    <p>Quantity product: 2</p>
-                                    <h5>Total price all: $ 400</h5>
+
+                                    <h2 style={{ textAlign: "center", marginBottom: "10%", marginTop: "5%", color: "#6495ED" }}>Payment order</h2>
+                                    <p style={{ marginLeft: "4%" }}>Quantity product:{totalQuantity} </p>
+                                    <h5 style={{ marginLeft: "4%" }}>Total price all: $ {totalPriceAll}</h5>
                                     <div className="d-flex" style={{ marginTop: "20%" }}>
                                         <div className="full" style={{ marginRight: "15%", marginLeft: "25%" }} title="Back Home">
                                             <Link to='/'>

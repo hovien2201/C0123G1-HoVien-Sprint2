@@ -5,12 +5,17 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as service from '../../service/Service';
+import { toast } from 'react-toastify';
 
 export function Content() {
   const [productList, setProductList] = useState([])
   const getAllProducts = async() => {
     const rs = await service.getAllProduct()
     setProductList(rs)
+  }
+  const addCart = async(id) =>{
+    await service.createShoppingcart(id,1)
+    toast.success("Add to Cart seccuss!!")
   }
   useEffect(() => {
     getAllProducts();
@@ -84,7 +89,7 @@ export function Content() {
         <section id="fan" className="portfolio row">
           <div className="container">
             <div className="section-title" data-aos="fade-up">
-              <h2>Products</h2>
+              <h2>Featured Products</h2>
               <p>Choose your favorite cool sourcem</p>
             </div>
             <div className="row" data-aos="fade-up" data-aos-delay={200}>
@@ -114,6 +119,7 @@ export function Content() {
                   />
                   <div className="portfolio-info">
                     <h4>{value.name}</h4>
+                    <h3 style={{color:"white"}}>$ {value.price}</h3>
                     <p>{value.typeProduct.name}</p>
                     <div className="portfolio-links">
                       <a
@@ -124,7 +130,7 @@ export function Content() {
                       >
                         <i className="bx bx-plus" />
                       </a>
-                      <a href="#" title="Add to Cart">
+                      <a onClick={() => addCart(value.id)} title="Add to Cart">
                         <i className="bi bi-plus" />
                       </a>
                       <NavLink to={`/details/${value.id}`} title="More Details">

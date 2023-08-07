@@ -7,7 +7,7 @@ import { Login } from './component/login/Login';
 import { Content } from './component/body/Content';
 import { Details } from './component/body/Details';
 import { ShoppingCart } from './component/body/ShoppingCart';
-
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
       <Route path='/cart' element={<ShoppingCart />}/>
     </Routes>
     <Footer />
+    <ToastContainer />
     </>
   );
 }

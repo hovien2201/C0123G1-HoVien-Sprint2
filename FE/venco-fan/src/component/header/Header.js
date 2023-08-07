@@ -38,7 +38,8 @@ const [expanded, setExpanded] = useState(false);
     localStorage.removeItem("username");
     localStorage.removeItem("role");
     setIsLogin(false);
-    toast.success("Đăng xuất thành công !!");
+    setDropdownOpen(false);
+    toast.success("Logout seccuss !!");
     navigate("/login")
   };
   // console.log(decodedToken.sub)
@@ -96,32 +97,28 @@ const [expanded, setExpanded] = useState(false);
                         className="nav-info-user">
                         <DropdownToggle
                           style={{
-                            fontWeight: "700",
                             fontSize: "20px",
-                            fontFamily: "var(--font-secondary)"
                           }}
-                          className="nav-link"
+                          className="nav-link btn-light"
                         >
-                          username
+                          <i class="bi bi-person" style={{ fontSize: '120%', }}></i>{username}
                         </DropdownToggle>
                         <DropdownMenu className="abc">
 
                           <Link to="/nav/info-store" className="dropdown-item "
-                            style={{ color: "black" }}>Quản lý cửa hàng<i
-                              className="fa-solid fa-list-check"></i></Link>
-                          <a className="dropdown-item " onClick={() => handlerLogout()}
-                            style={{ color: "black" }}>Đăng xuất<i
-                              className="fa-solid fa-right-from-bracket"></i></a>
+                            ><i class="bi bi-card-list" style={{fontSize:"110%"}}>   Quản lý cửa hàng</i></Link>
+                          <Link className="dropdown-item " onClick={() => handlerLogout()}
+                            ><i class="bi bi-box-arrow-in-right" style={{fontSize:"120%"}}>   Đăng xuất</i></Link>
                         </DropdownMenu>
                       </Dropdown>
-                      <i style={{ marginLeft: "0.5rem" }} className="fa-regular fa-user"></i>
+                   
                     </>
                   )
                   :
                   (
                     <>
                       <NavLink to="/login" className='font-a-header '
-                        ><i class="bi bi-person" style={{ fontSize: '20px', }}></i>LOGIN</NavLink>
+                        ><i class="bi bi-person" style={{ fontSize: '130%', }}></i>LOGIN</NavLink>
 
                     </>
                   )

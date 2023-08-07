@@ -28,6 +28,7 @@ price DOUBLE NOT NULL,
 quantity INT NOT NULL,
 is_delete BIT DEFAULT 0,
 descrip VARCHAR(1000),
+image VARCHAR(200),
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 update_date DATETIME,
 type_product INT NOT NULL,FOREIGN KEY(type_product) REFERENCES type_product(id)

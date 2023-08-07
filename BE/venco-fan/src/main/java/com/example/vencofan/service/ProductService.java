@@ -12,7 +12,7 @@ public class ProductService implements IProductService{
     private IProductRepository iProductRepository;
     @Override
     public List<Products> getAll() {
-        return iProductRepository.findAll();
+        return iProductRepository.getAll();
     }
 
     @Override
