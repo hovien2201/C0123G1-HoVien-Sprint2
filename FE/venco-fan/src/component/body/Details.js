@@ -35,8 +35,8 @@ export function Details() {
 
   const [productList, setProductList] = useState([])
   const getAllProducts = async () => {
-    const rs = await service.getAllProduct()
-    setProductList(rs)
+    const rs = await service.getAllProduct("null",0)
+    setProductList(rs.data.content)
   }
   const addToCart = async () => {
     await service.createShoppingcart(id, quantity)
@@ -90,8 +90,7 @@ export function Details() {
                         <p>
                           {/* {product.description} */}
                           {dep.map((val) => (
-                            <p> {val}</p>
-                          
+                            <p> {val}</p>                       
                         )    
                           )}
                       </p>
@@ -138,7 +137,6 @@ export function Details() {
           </div>
           <Carousel interval={5000}>
             {productList.map((val, index) => (
-
               <Carousel.Item>
                 <div
                   className="row portfolio-container"

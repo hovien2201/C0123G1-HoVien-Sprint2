@@ -45,7 +45,7 @@ public class ShoppingCartService implements IShoppingCartService{
             newShoppingCart.setProducts(products);
             iShoppingCartRepository.save(newShoppingCart);
         }else {
-            shoppingCart.setPrice(shoppingCart.getPrice()*(shoppingCart.getQuantity()+quantity));
+            shoppingCart.setPrice(shoppingCart.getProducts().getPrice()*(shoppingCart.getQuantity()+quantity));
             shoppingCart.setQuantity(shoppingCart.getQuantity()+quantity);
             iShoppingCartRepository.save(shoppingCart);
         }

@@ -1,7 +1,6 @@
 package com.example.vencofan.config;
 
 
-import com.example.vencofan.model.Bills;
 import com.example.vencofan.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

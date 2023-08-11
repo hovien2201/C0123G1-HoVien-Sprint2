@@ -10,16 +10,22 @@ export function ShoppingCart() {
     const [totalPriceAll, setTotalPriceAll] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
     const getCart = async () => {
-        const result = await service.getShoppingcart()
+        try {
+            const result = await service.getShoppingcart()
         await setShoppingCart(result)
         setTotalQuantity(0)
         setTotalPriceAll(0)
-        await result.map(async(val, index) => {            
+        if(result != null){
+            await result.map(async(val, index) => {            
                 await setTotalQuantity(total => total+ val.quantity)
                 await setTotalPriceAll(total => total +val.price)
         })
+        }
+        } catch (error) {
+            
+        }
         
-
+        
     
     }
     const setTotalQ = async (q) => {
@@ -32,8 +38,8 @@ export function ShoppingCart() {
         }
 
     }
-    const deleteShoppingCart = async (id) => {
-        await service.deleteShoppingcart(id)
+    const deleteShoppingCart = async (id,idP) => {
+        await service.deleteShoppingcart(id,idP)
         Swal.fire({
             icon: "success",
             title: "Delete Cart success",
@@ -41,7 +47,7 @@ export function ShoppingCart() {
         })
         getCart()
     }
-    const deleteCart = async (id, name) => {
+    const deleteCart = async (id, name,idP) => {
         Swal.fire({
             icon: "warning",
             title: `Do you want to remove a product named <span class='al'> ${name} </span> from the cart?`,
@@ -50,7 +56,7 @@ export function ShoppingCart() {
         })
             .then((rs) => {
                 if (rs.isConfirmed) {
-                    deleteShoppingCart(id)
+                    deleteShoppingCart(id,idP)
                 }
             })
     }
@@ -100,12 +106,17 @@ export function ShoppingCart() {
                                         </td>
                                         <td>$ {value.price}</td>
                                         <td>
-                                            <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name)}></i></a>
+                                            <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name,value.products.id)}></i></a>
                                         </td>
                                     </tr>
-                                ))) : (<>
-                                    <h4>No products</h4>
-                                </>)}
+                                ))) : <>
+                                <tr><p></p></tr>
+                                <tr><p></p></tr>
+                                <tr><p></p></tr>
+                                <tr ><td></td><td></td><td></td><td>Shopping Cart no products</td><td></td></tr>
+                                
+                                </>
+                                }
 
                             </tbody>
                         </table>

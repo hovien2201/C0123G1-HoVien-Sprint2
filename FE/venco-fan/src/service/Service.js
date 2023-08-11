@@ -1,16 +1,10 @@
 import axios from "axios";
-export const getAllProduct = async () => {
+const token = localStorage.getItem('token');
+export const getAllProduct = async (name,page) => {
     // const token = localStorage.getItem('token');
     try {
-        const res = await axios.get("http://localhost:8080/api/product"
-        // ,
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         }
-        //     }
-            );
-        return res.data;
+        const res = await axios.get(`http://localhost:8080/api/product?name=${name}&page=${page}`);
+        return res;
     } catch (e) {
         console.log(e)
         return e
@@ -51,21 +45,24 @@ export const getImage = async (id) => {
     }
 }
 export const getShoppingcart = async () => {
-    const username = localStorage.getItem('username');
-    try {
-        const res = await axios.get(`http://localhost:8080/api/shopping/${username}`
-        // ,
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         }
-        //     }
-            );
-        return res.data;
-    } catch (e) {
-        console.log(e)
-        return e
-    }
+   
+        if(token != null){
+            const res = await axios.get(`http://localhost:8080/api/shopping`
+            ,
+                {
+
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+                );
+            return res.data;
+        }else{
+            const res = await axios.get(`http://localhost:8080/api/shopping`,{withCredentials:true})
+            return res.data;
+        }
+       
+   
 }
 export const setShoppingcart = async (index,id) => {
     try {
@@ -84,9 +81,15 @@ export const setShoppingcart = async (index,id) => {
     }
 }
 export const createShoppingcart = async (idProduct,quantity) => {
+    const newValue ={
+        quantity : quantity,
+        products : idProduct
+    }
+    const id =idProduct.id;
     const username = localStorage.getItem('username');
     try {
-        const res = await axios.post(`http://localhost:8080/api/shopping/create/${username}/${idProduct}/${quantity}`
+        if(username){
+const res = await axios.post(`http://localhost:8080/api/shopping/create/${username}/${id}/${quantity}`
         // ,
         //     {
         //         headers: {
@@ -95,22 +98,34 @@ export const createShoppingcart = async (idProduct,quantity) => {
         //     }
             );
         return res.data;
+        }else{
+            const res = await axios.post("http://localhost:8080/api/shopping", newValue,
+                                                    {withCredentials: true})
+            return res.data;
+        }
+        
     } catch (e) {
         console.log(e)
         return e
     }
 }
-export const deleteShoppingcart = async (id) => {
+export const deleteShoppingcart = async (id,idP) => {
     try {
-        const res = await axios.delete(`http://localhost:8080/api/shopping/delete/${id}`
-        // ,
-        //     {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         }
-        //     }
-            );
-        return res.data;
+        if(token != null){
+            const res = await axios.delete(`http://localhost:8080/api/shopping/delete/${id}`
+            // ,
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${token}`,
+            //         }
+            //     }
+                );
+            return res.data;
+        }else{
+            const res = await axios.delete(`http://localhost:8080/api/shopping/deleteSession/`+ idP, {withCredentials: true})
+            return res.data;
+        }
+        
     } catch (e) {
         console.log(e)
         return e

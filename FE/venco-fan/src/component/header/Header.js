@@ -57,7 +57,7 @@ const [expanded, setExpanded] = useState(false);
           <nav id="navbar" className="navbar">
             <ul >
               <li>
-                <NavLink className="nav-link scrollto active" to='/'>
+                <NavLink className="nav-link scrollto " to='/'>
                   HOME
                 </NavLink>
               </li>

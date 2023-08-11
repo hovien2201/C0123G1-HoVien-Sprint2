@@ -30,7 +30,6 @@ public class UsersService implements UserDetailsService, IUsersService {
     private IUserRepository iUserRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users users = iUserRepository.findByUsername(username);
@@ -43,6 +42,7 @@ public class UsersService implements UserDetailsService, IUsersService {
 
         return new JwtUserDetails(users.getId(), users.getUsername(), users.getPassword(), authorities);
     }
+
 
     @Override
     public Users findByUsername(String username) {

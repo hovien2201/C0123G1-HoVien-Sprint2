@@ -9,13 +9,39 @@ import { toast } from 'react-toastify';
 
 export function Content() {
   const [productList, setProductList] = useState([])
-  const getAllProducts = async() => {
-    const rs = await service.getAllProduct()
-    setProductList(rs)
+  const [page,setPage] = useState(0);
+  const [totalPage,setTotalPage] = useState();
+  const getAllProducts = async(type = 'null',page =0) => {
+    const rs = await service.getAllProduct(type,page)
+    setProductList(()=>[...productList,...rs.data.content])
+    setTotalPage(rs.data.totalPages)
+    console.log(rs.data.totalPages);
+  }
+  const getAllProductsNew = async(type = 'null',page =0) => {
+    const rs = await service.getAllProduct(type,page)
+    setProductList(rs.data.content)
+    setTotalPage(rs.data.totalPages)
+    console.log(rs.data.totalPages);
   }
   const addCart = async(id) =>{
     await service.createShoppingcart(id,1)
-    toast.success("Add to Cart seccuss!!")
+    toast.success("Add to Cart successfully!!")
+  }
+  const loadMore = async () => {
+   await getAllProducts("null",page+1)
+   setPage(page+1);
+  }
+  const onclickType = async (type) => {
+    if(type==0){
+      getAllProductsNew()
+    }else if(type ==1){
+      getAllProductsNew("STEAM FAN")
+    }else if(type ==2){
+      getAllProductsNew("STANDING FAN")
+    }else if(type ==3){
+      getAllProductsNew("WALL FAN")
+    }
+
   }
   useEffect(() => {
     getAllProducts();
@@ -95,12 +121,22 @@ export function Content() {
             <div className="row" data-aos="fade-up" data-aos-delay={200}>
               <div className="col-lg-12 d-flex justify-content-center">
                 <ul id="portfolio-flters">
-                  <li data-filter="*" className="filter-active">
-                    All
+                  {/* <li data-filter="*" className="filter-app">
+                    <NavLink to="/#all" style={({isActive}) => {
+                      return{
+                        backgroundColor : isActive? "#3498db":"",
+                        color : isActive? "white" :""
+                      }
+                    }}>All</NavLink>
+                    
                   </li>
                   <li data-filter=".filter-app">Steam fan</li>
                   <li data-filter=".filter-card">Standing fan</li>
-                  <li data-filter=".filter-web">Wall fan</li>
+                  <li data-filter=".filter-web">Wall fan</li> */}
+                  <li onClick={() => onclickType(0)}>All</li>
+                  <li onClick={() => onclickType(1)}>Steam fan</li>
+                  <li onClick={() => onclickType(2)}>Standing fan</li>
+                  <li onClick={() => onclickType(3)}>Wall fan</li>
                 </ul>
               </div>
             </div>
@@ -130,7 +166,7 @@ export function Content() {
                       >
                         <i className="bx bx-plus" />
                       </a>
-                      <a onClick={() => addCart(value.id)} title="Add to Cart">
+                      <a onClick={() => addCart(value)} title="Add to Cart">
                         <i className="bi bi-plus" />
                       </a>
                       <NavLink to={`/details/${value.id}`} title="More Details">
@@ -144,11 +180,20 @@ export function Content() {
               
               
             </div>
+            {
+                page != totalPage -1 ? (
+              <button onClick={() => loadMore()} className="load-more-button">Load More</button>
+
+                ) : (<></>)
+              }
           </div>
         </section>
         {/* End Portfolio Section */}
       </main>
       {/* End #main */}
+
+
+      
     </>
 
   )

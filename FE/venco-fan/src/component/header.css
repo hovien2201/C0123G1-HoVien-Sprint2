@@ -1607,3 +1607,29 @@ section {
 #footer .footer-links a:hover {
   color: #3498db;
 }
+
+.load-more-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 10%;
+  margin-left: 45%;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 30px;
+  background-color: #3498db;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.load-more-button:hover {
+  background-color: #45a049;
+}
+
+.load-more-button:active {
+  background-color: #398439;
+}
