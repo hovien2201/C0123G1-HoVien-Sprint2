@@ -30,8 +30,30 @@ export function ShoppingCart() {
 
 
     }
+    const paymentt =async () => {
+        try {
+            const rs =await service.createOrder()
+            await getCart()
+            toast.success("Order success")
+        } catch (error) {
+            toast.error(error.response.data)
+        }
+        
+    }
+
     const payment = () => {
-        toast.success("hehee")
+        Swal.fire({
+            icon: "success",
+            title: `Do you want payment?`,
+            showCancelButton: true,
+            confirmButtonText: "Oke"
+        })
+            .then((rs) => {
+                if (rs.isConfirmed) {
+                    paymentt()
+                }
+            })
+       
     }
     const editQuantity = async (val, id, vQuantity, sessionProduct) => {
         if (vQuantity > 1 || val == 1) {

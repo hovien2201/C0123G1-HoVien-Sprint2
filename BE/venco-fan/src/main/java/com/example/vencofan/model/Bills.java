@@ -14,13 +14,18 @@ public class Bills {
     private LocalDateTime createDate;
     @Column(columnDefinition = "BIT DEFAULT 0")
     private boolean isDelete;
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     private Double totalPrice;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customers customers;
 
     public Bills() {
+    }
+
+    public Bills(Double totalPrice, Customers customers) {
+        this.totalPrice = totalPrice;
+        this.customers = customers;
     }
 
     public Bills(Integer id, LocalDateTime createDate, boolean isDelete, Double totalPrice, Customers customers) {

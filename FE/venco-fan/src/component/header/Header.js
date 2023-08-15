@@ -78,6 +78,7 @@ const [expanded, setExpanded] = useState(false);
                   SERVICE
                 </a>
               </li>
+              
               <li>
                 <a className="nav-link scrollto" href="#team">
                   TEAM
@@ -88,6 +89,7 @@ const [expanded, setExpanded] = useState(false);
                   CONTACT
                 </a>
               </li>
+              
               <li style={{
                 display: "flex", textAlign: "center",
                 alignItems: "center", fontWeight: "300"
@@ -99,7 +101,7 @@ const [expanded, setExpanded] = useState(false);
                         className="nav-info-user">
                         <DropdownToggle
                           style={{
-                            fontSize: "20px",
+                            fontSize: "120%",
                           }}
                           className="nav-link btn-light"
                         >
@@ -108,7 +110,7 @@ const [expanded, setExpanded] = useState(false);
                         <DropdownMenu className="abc">
 
                           <Link to="/nav/info-store" className="dropdown-item "
-                            ><i class="bi bi-card-list" style={{fontSize:"110%"}}>   Store management</i></Link>
+                            ><i class="bi bi-card-list" style={{fontSize:"110%"}}> Payment history</i></Link>
                           <Link className="dropdown-item " onClick={() => handlerLogout()}
                             to='/login'><i class="bi bi-box-arrow-in-right" style={{fontSize:"120%"}} >   Logout</i></Link>
                         </DropdownMenu>
