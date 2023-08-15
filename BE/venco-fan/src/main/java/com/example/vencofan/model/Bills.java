@@ -70,8 +70,5 @@ public class Bills {
     public void setCustomers(Customers customers) {
         this.customers = customers;
     }
-   public boolean setCustomers(boolean cu){
-        return true;
-   }
 
 }

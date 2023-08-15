@@ -33,14 +33,16 @@ const [expanded, setExpanded] = useState(false);
   }, [token]);
 
 
-  const handlerLogout = () => {
+  const handlerLogout = async() => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("role");
     setIsLogin(false);
     setDropdownOpen(false);
     toast.success("Logout seccuss !!");
-    navigate("/login")
+    // window.location.reload()
+    // await navigate("/login")
+
   };
   // console.log(decodedToken.sub)
   return (
@@ -106,9 +108,9 @@ const [expanded, setExpanded] = useState(false);
                         <DropdownMenu className="abc">
 
                           <Link to="/nav/info-store" className="dropdown-item "
-                            ><i class="bi bi-card-list" style={{fontSize:"110%"}}>   Quản lý cửa hàng</i></Link>
+                            ><i class="bi bi-card-list" style={{fontSize:"110%"}}>   Store management</i></Link>
                           <Link className="dropdown-item " onClick={() => handlerLogout()}
-                            ><i class="bi bi-box-arrow-in-right" style={{fontSize:"120%"}}>   Đăng xuất</i></Link>
+                            to='/login'><i class="bi bi-box-arrow-in-right" style={{fontSize:"120%"}} >   Logout</i></Link>
                         </DropdownMenu>
                       </Dropdown>
                    
@@ -124,7 +126,7 @@ const [expanded, setExpanded] = useState(false);
                   )
                 }
               </li>
-              <NavLink to='/cart' title='Shoping Cart'>
+              <NavLink to='/cart' title='Shoping Cart' >
               <ShoppingCartOutlinedIcon style={{marginLeft:"10%"}} />CART
               </NavLink>
               

@@ -65,7 +65,7 @@ export function Login() {
             })}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  const response =  await axios.post("http://localhost:8080/api/user/authenticate",values);
+                  const response =  await axios.post("http://localhost:8080/api/user/authenticate",values,{ withCredentials: true });
                   if (response.data.token) {
                     localStorage.setItem("token", response.data.token);
                     localStorage.setItem("username", response.data.username);

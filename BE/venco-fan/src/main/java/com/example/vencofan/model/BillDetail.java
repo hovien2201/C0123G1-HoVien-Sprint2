@@ -67,4 +67,5 @@ public class BillDetail {
     public void setBills(Bills bills) {
         this.bills = bills;
     }
+
 }

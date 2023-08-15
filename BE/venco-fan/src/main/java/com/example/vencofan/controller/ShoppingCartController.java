@@ -75,9 +75,30 @@ public class ShoppingCartController {
         return new ResponseEntity<>(session.getAttribute("cart"), HttpStatus.OK);
     }
 
-    @PatchMapping("/{index}/{id}")
-    public ResponseEntity<?> setCart(@PathVariable Integer index, @PathVariable Integer id) {
+    @PostMapping("/{index}/{id}")
+    public ResponseEntity<?> setCart(@PathVariable Integer index, @PathVariable Integer id,HttpServletRequest httpServletRequest) {
+        List<ShoppingCart> shoppingCartList = new ArrayList<>();
+        HttpSession session = httpServletRequest.getSession();
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.getPrincipal().equals("anonymousUser")) {
+                shoppingCartList = (List<ShoppingCart>) session.getAttribute("cart");
+                if (shoppingCartList != null){
+                    for (int i = 0; i < shoppingCartList.size(); i++) {
+                        if (shoppingCartList.get(i).getProducts().getId() == id){
+                            if (index==0){
+                                shoppingCartList.get(i).setPrice(shoppingCartList.get(i).getProducts().getPrice()*(shoppingCartList.get(i).getQuantity()-1));
+                                shoppingCartList.get(i).setQuantity(shoppingCartList.get(i).getQuantity()-1);
+                            }else {
+                                shoppingCartList.get(i).setPrice(shoppingCartList.get(i).getProducts().getPrice()*(shoppingCartList.get(i).getQuantity()+1));
+                                shoppingCartList.get(i).setQuantity(shoppingCartList.get(i).getQuantity()+1);
+                            }
+                        }
+                    }
+                }
+                session.setAttribute("cart", shoppingCartList);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
             iShoppingCartService.setCart(index, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {

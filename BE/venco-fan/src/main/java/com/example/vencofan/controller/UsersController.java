@@ -2,12 +2,17 @@ package com.example.vencofan.controller;
 
 import com.example.vencofan.config.JwtTokenUtil;
 import com.example.vencofan.config.JwtUserDetails;
+import com.example.vencofan.model.Customers;
+import com.example.vencofan.model.ShoppingCart;
 import com.example.vencofan.model.Users;
 import com.example.vencofan.reponse.JwtRequest;
 import com.example.vencofan.reponse.JwtResponse;
 import com.example.vencofan.service.EmailService;
+import com.example.vencofan.service.ICustomerService;
+import com.example.vencofan.service.IShoppingCartService;
 import com.example.vencofan.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.CustomAutowireConfigurer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +23,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -28,7 +36,7 @@ import java.util.Random;
  * @param
  * @return
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000"}, allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/user")
 public class UsersController {
@@ -40,6 +48,10 @@ public class UsersController {
     private UsersService usersService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private IShoppingCartService iShoppingCartService;
+    @Autowired
+    private ICustomerService iCustomerService;
 
     class ErrorInfo {
         private String error;
@@ -49,7 +61,7 @@ public class UsersController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> loginAuthentication(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> loginAuthentication(@RequestBody JwtRequest authenticationRequest, HttpServletRequest httpServletRequest) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
@@ -58,6 +70,20 @@ public class UsersController {
             JwtUserDetails principal = (JwtUserDetails) authentication.getPrincipal();
             GrantedAuthority authority = principal.getAuthorities().stream().findFirst().orElse(null);
             final String token = jwtTokenUtil.generateToken(principal.getUsername());
+            HttpSession session = httpServletRequest.getSession();
+            if (session.getAttribute("cart") != null) {
+                List<ShoppingCart> list = (List<ShoppingCart>) session.getAttribute("cart");
+                Customers customers = iCustomerService.getCus(principal.getUsername());
+                try {
+                    iShoppingCartService.deleteByCus(customers);
+                } catch (Exception e) {
+                    throw e;
+                }
+                for (int i = 0; i < list.size(); i++) {
+                    iShoppingCartService.createCart(customers, list.get(i).getProducts(), list.get(i).getQuantity());
+                }
+                session.removeAttribute("cart");
+            }
 
             return ResponseEntity.ok(new JwtResponse(token, principal.getUsername(), authority != null ? authority.getAuthority() : null));
         } catch (BadCredentialsException e) {

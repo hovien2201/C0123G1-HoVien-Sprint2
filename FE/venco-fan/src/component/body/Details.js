@@ -39,7 +39,7 @@ export function Details() {
     setProductList(rs.data.content)
   }
   const addToCart = async () => {
-    await service.createShoppingcart(id, quantity)
+    await service.createShoppingcart(product, quantity)
     toast.success(`Add ${quantity} successful ${product.name} products to your cartd to Cart!`)
   }
   useEffect(() => {

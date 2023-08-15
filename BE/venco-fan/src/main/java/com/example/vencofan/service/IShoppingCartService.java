@@ -9,7 +9,9 @@ public interface IShoppingCartService {
     List<ShoppingCart> getAllByCus(Integer id);
 
     void setCart(Integer index, Integer id);
-    void createCart(Customers username, Products products, Integer quantity);
+    void createCart(Customers customers, Products products, Integer quantity);
 
     void deleteById(Integer id);
+
+    void deleteByCus(Customers customers);
 }

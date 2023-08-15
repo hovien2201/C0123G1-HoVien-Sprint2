@@ -4,42 +4,44 @@ import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import React, { useEffect, useState } from "react";
 import * as service from '../../service/Service';
 import Swal from "sweetalert2";
+import { toast } from 'react-toastify';
 export function ShoppingCart() {
     const [quantity, setQuantity] = useState(1)
+    const [username, setUsername] = useState(localStorage.getItem("username"))
     const [shoppingCart, setShoppingCart] = useState([])
     const [totalPriceAll, setTotalPriceAll] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
     const getCart = async () => {
         try {
             const result = await service.getShoppingcart()
-        await setShoppingCart(result)
-        setTotalQuantity(0)
-        setTotalPriceAll(0)
-        if(result != null){
-            await result.map(async(val, index) => {            
-                await setTotalQuantity(total => total+ val.quantity)
-                await setTotalPriceAll(total => total +val.price)
-        })
-        }
+            await setShoppingCart(result)
+            setTotalQuantity(0)
+            setTotalPriceAll(0)
+            if (result != null) {
+                await result.map(async (val, index) => {
+                    await setTotalQuantity(total => total + val.quantity)
+                    await setTotalPriceAll(total => total + val.price)
+                })
+            }
         } catch (error) {
-            
+
         }
-        
-        
-    
+
+
+
     }
-    const setTotalQ = async (q) => {
-        await setTotalQuantity(q+totalQuantity)
+    const payment = () => {
+        toast.success("hehee")
     }
-    const editQuantity = async (val, id, vQuantity) => {
+    const editQuantity = async (val, id, vQuantity, sessionProduct) => {
         if (vQuantity > 1 || val == 1) {
-            await service.setShoppingcart(val, id);
+            await service.setShoppingcart(val, id, sessionProduct);
             getCart();
         }
 
     }
-    const deleteShoppingCart = async (id,idP) => {
-        await service.deleteShoppingcart(id,idP)
+    const deleteShoppingCart = async (id, idP) => {
+        await service.deleteShoppingcart(id, idP)
         Swal.fire({
             icon: "success",
             title: "Delete Cart success",
@@ -47,7 +49,7 @@ export function ShoppingCart() {
         })
         getCart()
     }
-    const deleteCart = async (id, name,idP) => {
+    const deleteCart = async (id, name, idP) => {
         Swal.fire({
             icon: "warning",
             title: `Do you want to remove a product named <span class='al'> ${name} </span> from the cart?`,
@@ -56,7 +58,7 @@ export function ShoppingCart() {
         })
             .then((rs) => {
                 if (rs.isConfirmed) {
-                    deleteShoppingCart(id,idP)
+                    deleteShoppingCart(id, idP)
                 }
             })
     }
@@ -97,24 +99,24 @@ export function ShoppingCart() {
                                         <td>
                                             <div className="d-flex">
                                                 <div className="d-flex">
-                                                    <button type="button" className="minus" onClick={() => editQuantity(0, value.id, value.quantity)}><span>-</span></button>
+                                                    <button type="button" className="minus" onClick={() => editQuantity(0, value.id, value.quantity, value.products)}><span>-</span></button>
                                                     <input value={value.quantity}
                                                         className="input" min="0" />
-                                                    <button type="button" value="+" className="plus" onClick={() => editQuantity(1, value.id, value.quantity)}><span>+</span></button>
+                                                    <button type="button" value="+" className="plus" onClick={() => editQuantity(1, value.id, value.quantity, value.products)}><span>+</span></button>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>$ {value.price}</td>
                                         <td>
-                                            <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name,value.products.id)}></i></a>
+                                            <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name, value.products.id)}></i></a>
                                         </td>
                                     </tr>
                                 ))) : <>
-                                <tr><p></p></tr>
-                                <tr><p></p></tr>
-                                <tr><p></p></tr>
-                                <tr ><td></td><td></td><td></td><td>Shopping Cart no products</td><td></td></tr>
-                                
+                                    <tr><p></p></tr>
+                                    <tr><p></p></tr>
+                                    <tr><p></p></tr>
+                                    <tr ><td></td><td></td><td></td><td>Shopping Cart no products</td><td></td></tr>
+
                                 </>
                                 }
 
@@ -136,10 +138,15 @@ export function ShoppingCart() {
                                             </Link>
                                         </div>
                                         <div className="full">
+                                            {
+                                                username ? (<Link onClick={() => payment()} title='Payment'>
+                                                    <CreditScoreIcon style={{ fontSize: "200%" }} />
+                                                </Link>) :
+                                                    (<Link to='/login' title='Payment'>
+                                                        <CreditScoreIcon style={{ fontSize: "200%" }} />
+                                                    </Link>)
+                                            }
 
-                                            <Link to='/' title='Payment'>
-                                                <CreditScoreIcon style={{ fontSize: "200%" }} />
-                                            </Link>
 
                                         </div>
                                     </div>

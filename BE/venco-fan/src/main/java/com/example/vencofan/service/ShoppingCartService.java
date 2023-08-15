@@ -55,4 +55,9 @@ public class ShoppingCartService implements IShoppingCartService{
     public void deleteById(Integer id) {
         iShoppingCartRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteByCus(Customers customers) {
+        iShoppingCartRepository.deleteByCus(customers.getId());
+    }
 }
