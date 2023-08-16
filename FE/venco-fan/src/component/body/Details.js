@@ -41,6 +41,7 @@ export function Details() {
   const addToCart = async () => {
     await service.createShoppingcart(product, quantity)
     toast.success(`Add ${quantity} successful ${product.name} products to your cartd to Cart!`)
+    navigate("/")
   }
   useEffect(() => {
     getAllProducts();

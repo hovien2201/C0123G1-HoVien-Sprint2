@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import * as service from '../../service/Service';
 import Swal from "sweetalert2";
 import { toast } from 'react-toastify';
+import { PayPalButton } from "react-paypal-button-v2";
 export function ShoppingCart() {
     const [quantity, setQuantity] = useState(1)
     const [username, setUsername] = useState(localStorage.getItem("username"))
@@ -153,18 +154,38 @@ export function ShoppingCart() {
                                     <h2 style={{ textAlign: "center", marginBottom: "10%", marginTop: "5%", color: "#6495ED" }}>Payment order</h2>
                                     <p style={{ marginLeft: "4%" }}>Quantity product:{totalQuantity} </p>
                                     <h5 style={{ marginLeft: "4%" }}>Total price all: $ {totalPriceAll}</h5>
-                                    <div className="d-flex" style={{ marginTop: "20%" }}>
-                                        <div className="full" style={{ marginRight: "15%", marginLeft: "25%" }} title="Back Home">
+                                    <div  style={{ marginTop: "10%" }}>
+                                        <div className="full" style={{  marginLeft: "45%" ,marginBottom:"5%"}} title="Back Home">
                                             <Link to='/'>
                                                 <ArrowBackIcon style={{ fontSize: "200%" }} />
                                             </Link>
                                         </div>
                                         <div className="full">
                                             {
-                                                username ? (<Link onClick={() => payment()} title='Payment'>
-                                                    <CreditScoreIcon style={{ fontSize: "200%" }} />
-                                                </Link>) :
-                                                    (<Link to='/login' title='Payment'>
+                                                username ? (
+                                                // <Link onClick={() => payment()} title='Payment'>
+                                                //     <CreditScoreIcon style={{ fontSize: "200%" }} />
+                                                // </Link>
+                                                    <PayPalButton
+                                                    amount={totalPriceAll}
+                                                    // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                                    onSuccess={(details, data) => {
+                                                        paymentt()
+                                                
+                                                        // OPTIONAL: Call your server to save the transaction
+                                                        return fetch("/paypal-transaction-complete", {
+                                                            method: "post",
+                                                            body: JSON.stringify({
+                                                                orderID: data.orderID
+                                                            })
+                                                        });
+                                                    }}
+                                                    onError={(e) =>{
+                                                        toast.error("Payment fail!!")
+                                                    }}
+                                                />
+                                                ) :
+                                                    (<Link to='/login' title='Payment' style={{  marginLeft: "45%" ,marginBottom:"5%"}}>
                                                         <CreditScoreIcon style={{ fontSize: "200%" }} />
                                                     </Link>)
                                             }
