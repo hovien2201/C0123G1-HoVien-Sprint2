@@ -109,7 +109,7 @@ const [expanded, setExpanded] = useState(false);
                         </DropdownToggle>
                         <DropdownMenu className="abc">
 
-                          <Link to="/nav/info-store" className="dropdown-item "
+                          <Link to="/history" className="dropdown-item "
                             ><i class="bi bi-card-list" style={{fontSize:"110%"}}> Payment history</i></Link>
                           <Link className="dropdown-item " onClick={() => handlerLogout()}
                             to='/login'><i class="bi bi-box-arrow-in-right" style={{fontSize:"120%"}} >   Logout</i></Link>

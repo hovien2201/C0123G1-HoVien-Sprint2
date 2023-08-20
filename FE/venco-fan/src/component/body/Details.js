@@ -15,14 +15,22 @@ export function Details() {
   const { id } = useParams();
   const [dep, setDep] = useState([])
   const getProducts = async () => {
-    const rs = await service.getDetailProduct(id)
+    try {
+      const rs = (await service.getDetailProduct(id)).data
     const res = await service.getImage(id)
     setImage(res)
     await setProduct(rs)
+    
     if(product){
       await setDep(rs.description.split("-"))
     }
     setTypeProduct(rs.typeProduct)
+    } catch (error) {
+      if(error.response.status ==500){
+        navigate('/error')
+      }
+    }
+    
   }
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -59,6 +67,7 @@ export function Details() {
       }
     }
   }
+
   return (
     <>
       <main id="main" style={{ marginTop: "5%" }}>
@@ -131,7 +140,7 @@ export function Details() {
         </div>
       </section>
       {/* ======= Portfolio Section ======= */}
-      <section id="portfolio" className="portfolio">
+      <section id="portfolio" className="portfolio" style={{marginTop:"5%"}}>
         <div className="container">
           <div className="section-title" data-aos="fade-up">
             <h2>Other products</h2>

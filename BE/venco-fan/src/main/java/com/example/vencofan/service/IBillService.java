@@ -1,4 +1,5 @@
 package com.example.vencofan.service;
 
-public interface IBiilService {
+public interface IBillService {
+
 }

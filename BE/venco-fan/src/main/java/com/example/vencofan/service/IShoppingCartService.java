@@ -13,5 +13,5 @@ public interface IShoppingCartService {
 
     void deleteById(Integer id);
 
-    void deleteByCus(Customers customers);
+        void deleteByCus(Customers customers);
 }

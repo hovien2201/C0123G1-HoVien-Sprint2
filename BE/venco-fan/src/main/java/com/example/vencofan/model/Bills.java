@@ -1,5 +1,7 @@
 package com.example.vencofan.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,7 +12,8 @@ public class Bills {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "create_date", columnDefinition = "DATETIME DEFAULT now()", updatable = false)
+    @CreationTimestamp
+    @Column(name = "create_date", columnDefinition = "TIMESTAMP DEFAULT now()", updatable = false)
     private LocalDateTime createDate;
     @Column(columnDefinition = "BIT DEFAULT 0")
     private boolean isDelete;

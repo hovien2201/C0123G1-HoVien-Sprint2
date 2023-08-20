@@ -8,6 +8,8 @@ import { Content } from './component/body/Content';
 import { Details } from './component/body/Details';
 import { ShoppingCart } from './component/body/ShoppingCart';
 import { ToastContainer } from 'react-toastify';
+import { ErrorAll } from './component/body/ErrorAll';
+import { History } from './component/body/History';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path='/' element={<Content />}/>
       <Route path='/details/:id' element={<Details />}/>
       <Route path='/cart' element={<ShoppingCart />}/>
+      <Route path='/error' element={<ErrorAll />}/>
+      <Route path='/history' element={<History />}/>
     </Routes>
     <Footer />
     <ToastContainer />

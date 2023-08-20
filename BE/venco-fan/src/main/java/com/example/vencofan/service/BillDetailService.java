@@ -52,4 +52,14 @@ public class BillDetailService implements IBillDetailService{
         }
 
     }
+
+    @Override
+    public List<Bills> getHistory(Integer id) {
+        return iBiilRepository.findAllByCustomers_IdOrderByCreateDateDesc(id);
+    }
+
+    @Override
+    public List<BillDetail> getHistoryD(Integer id) {
+        return iBillDetailRepository.findAllByBills_Id(id);
+    }
 }

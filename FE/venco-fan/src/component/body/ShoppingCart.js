@@ -155,12 +155,13 @@ export function ShoppingCart() {
                                     <p style={{ marginLeft: "4%" }}>Quantity product:{totalQuantity} </p>
                                     <h5 style={{ marginLeft: "4%" }}>Total price all: $ {totalPriceAll}</h5>
                                     <div  style={{ marginTop: "10%" }}>
-                                        <div className="full" style={{  marginLeft: "45%" ,marginBottom:"5%"}} title="Back Home">
+                                        {
+                                            totalQuantity == 0 ?(<div className="full" style={{  marginLeft: "45%" ,marginBottom:"5%"}} title="Back Home">
                                             <Link to='/'>
                                                 <ArrowBackIcon style={{ fontSize: "200%" }} />
                                             </Link>
-                                        </div>
-                                        <div className="full">
+                                        </div>):(
+                                            <div className="full">
                                             {
                                                 username ? (
                                                 // <Link onClick={() => payment()} title='Payment'>
@@ -192,6 +193,9 @@ export function ShoppingCart() {
 
 
                                         </div>
+                                        )
+                                        }
+                                        
                                     </div>
                                 </div>
                             </div>

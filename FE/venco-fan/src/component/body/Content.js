@@ -2,20 +2,26 @@ import ElectricRickshawIcon from '@mui/icons-material/ElectricRickshaw';
 import WifiCalling3Icon from '@mui/icons-material/WifiCalling3';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as service from '../../service/Service';
 import { toast } from 'react-toastify';
 
 export function Content() {
+  const navigate = useNavigate();
   const [productList, setProductList] = useState([])
   const [page,setPage] = useState(0);
   const [totalPage,setTotalPage] = useState();
   const getAllProducts = async(type = 'null',page =0) => {
-    const rs = await service.getAllProduct(type,page)
+    try {
+      const rs = await service.getAllProduct(type,page)
     setProductList(()=>[...productList,...rs.data.content])
     setTotalPage(rs.data.totalPages)
     console.log(rs.data.totalPages);
+    } catch (error) {
+      navigate('/error')
+    }
+    
   }
   const getAllProductsNew = async(type = 'null',page =0) => {
     const rs = await service.getAllProduct(type,page)

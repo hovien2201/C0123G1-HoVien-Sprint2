@@ -3,7 +3,7 @@ export function Footer() {
     return(
         <>
   {/* ======= Contact Section ======= */}
-  <section id="contact" className="contact">
+  <section id="contact" className="contact" style={{marginTop:"5%"}}>
     <div className="container">
       <div className="section-title" data-aos="fade-up">
         <h2>Contact Us</h2>

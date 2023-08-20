@@ -106,11 +106,13 @@ public class ShoppingCartController {
         }
     }
 
-    @PostMapping("/create/{username}/{id}/{quantity}")
-    public ResponseEntity<?> createCart(@PathVariable String username, @PathVariable Integer id, @PathVariable Integer quantity) {
+    @PostMapping("/create/{id}/{quantity}")
+    public ResponseEntity<?> createCart( @PathVariable Integer id, @PathVariable Integer quantity) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            JwtUserDetails principal = (JwtUserDetails) authentication.getPrincipal();
             Products products = productService.getProduct(id);
-            Customers customers = iCustomerService.getCus(username);
+            Customers customers = iCustomerService.getCus(principal.getUsername());
             iShoppingCartService.createCart(customers, products, quantity);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
