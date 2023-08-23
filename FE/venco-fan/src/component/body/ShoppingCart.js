@@ -86,6 +86,7 @@ export function ShoppingCart() {
             })
     }
     useEffect(() => {
+        document.title = "Shopping Cart";
         window.scrollTo(0, 0)
         getCart()
     }, []);
@@ -113,9 +114,15 @@ export function ShoppingCart() {
                                 {shoppingCart ? (shoppingCart.map((value, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <img className="pic"
+                                            {
+                                                value.products.quantity < 1 ? <img className="pic"
+                                                src="https://media.istockphoto.com/id/501962059/vi/vec-to/tem-%C4%91%C3%A3-b%C3%A1n-h%E1%BA%BFt-v%E1%BB%9Bi-v%C4%83n-b%E1%BA%A3n-m%C3%A0u-%C4%91%E1%BB%8F-tr%C3%AAn-m%C3%A0u-tr%E1%BA%AFng.jpg?s=2048x2048&w=is&k=20&c=AvsQlSW4KlL5T8xgUqYCqQRe7J2w1ncPdbojNwOts2k="
+                                                alt="" /> :
+                                                <img className="pic"
                                                 src={value.products.image}
                                                 alt="" />
+                                            }
+                                            
                                         </td>
                                         <td>{value.products.name}</td>
                                         <td>$ {value.products.price}</td>
@@ -124,7 +131,7 @@ export function ShoppingCart() {
                                                 <div className="d-flex">
                                                     <button type="button" className="minus" onClick={() => editQuantity(0, value.id, value.quantity, value.products)}><span>-</span></button>
                                                     <input value={value.quantity}
-                                                        className="input" min="0" />
+                                                        className="input" min="0"  style={{padding:"0 0"}}/>
                                                     <button type="button" value="+" className="plus" onClick={() => editQuantity(1, value.id, value.quantity, value.products)}><span>+</span></button>
                                                 </div>
                                             </div>
@@ -133,6 +140,7 @@ export function ShoppingCart() {
                                         <td>
                                             <a title="Delete"><i class="bi bi-x" style={{ fontSize: "200%" }} onClick={() => deleteCart(value.id, value.products.name, value.products.id)}></i></a>
                                         </td>
+                                        
                                     </tr>
                                 ))) : <>
                                     <tr><p></p></tr>
@@ -164,11 +172,9 @@ export function ShoppingCart() {
                                             <div className="full">
                                             {
                                                 username ? (
-                                                // <Link onClick={() => payment()} title='Payment'>
-                                                //     <CreditScoreIcon style={{ fontSize: "200%" }} />
-                                                // </Link>
+                                        
                                                     <PayPalButton
-                                                    amount={totalPriceAll}
+                                                    amount={totalPriceAll==0?1:totalPriceAll}
                                                     // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                                     onSuccess={(details, data) => {
                                                         paymentt()

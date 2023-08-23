@@ -10,6 +10,8 @@ import { ShoppingCart } from './component/body/ShoppingCart';
 import { ToastContainer } from 'react-toastify';
 import { ErrorAll } from './component/body/ErrorAll';
 import { History } from './component/body/History';
+import { LoginNew } from './component/loginNew/LoginNew';
+import { Information } from './component/body/Information';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
       <Route path='/cart' element={<ShoppingCart />}/>
       <Route path='/error' element={<ErrorAll />}/>
       <Route path='/history' element={<History />}/>
+      <Route path='/singup' element={<LoginNew />}/>
+      <Route path='/info' element={<Information />}/>
     </Routes>
     <Footer />
     <ToastContainer />

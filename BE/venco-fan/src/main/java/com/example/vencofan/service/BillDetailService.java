@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class BillDetailService implements IBillDetailService{
@@ -46,6 +48,24 @@ public class BillDetailService implements IBillDetailService{
                 iBillDetailRepository.save(billDetail);
                 price += shoppingCarts.get(i).getPrice();
             }
+            List<Bills> list=iBiilRepository.findAll();
+            long code;
+            Random random = new Random();
+            long min = 10000; // Số nhỏ nhất có 5 chữ số
+            long max = 99999; // Số lớn nhất có 5 chữ số
+            boolean flag;
+            String orderCode;
+            do {
+                flag = true;
+                code = random.nextLong() % (max - min + 1) + min;
+                orderCode = "OD-" + code;
+                for (int i = 0; i < list.size(); i++) {
+                    if (Objects.equals(list.get(i).getCode(), orderCode)) {
+                        flag = false;
+                    }
+                }
+            } while (!flag);
+            bills.setCode(orderCode);
             bills.setTotalPrice(price);
             iBiilRepository.save(bills);
             return new ResponseEntity<>(HttpStatus.OK);

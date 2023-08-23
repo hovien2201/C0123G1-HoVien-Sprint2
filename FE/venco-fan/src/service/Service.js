@@ -9,6 +9,7 @@ export const getAllProduct = async (name, page) => {
         return e
     }
 }
+
 export const getDetailProduct = async (id) => {
         const res = await axios.get(`http://localhost:8080/api/product/detail/${id}`
         );
@@ -50,6 +51,19 @@ export const getBills = async () => {
             ,
             {
 
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        );
+        return res;
+    } 
+}
+export const getCustomers = async () => {
+    if (token != null) {
+        const res = await axios.get(`http://localhost:8080/api/customer`
+            ,
+            {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

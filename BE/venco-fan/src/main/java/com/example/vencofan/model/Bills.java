@@ -19,6 +19,8 @@ public class Bills {
     private boolean isDelete;
     @Column(name = "total_price")
     private Double totalPrice;
+    @Column(name = "code")
+    private String code;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customers customers;
@@ -31,12 +33,29 @@ public class Bills {
         this.customers = customers;
     }
 
+    public Bills(Integer id, LocalDateTime createDate, boolean isDelete, Double totalPrice, String code, Customers customers) {
+        this.id = id;
+        this.createDate = createDate;
+        this.isDelete = isDelete;
+        this.totalPrice = totalPrice;
+        this.code = code;
+        this.customers = customers;
+    }
+
     public Bills(Integer id, LocalDateTime createDate, boolean isDelete, Double totalPrice, Customers customers) {
         this.id = id;
         this.createDate = createDate;
         this.isDelete = isDelete;
         this.totalPrice = totalPrice;
         this.customers = customers;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Integer getId() {

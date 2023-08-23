@@ -10,6 +10,7 @@ import com.example.vencofan.service.IShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -105,7 +106,7 @@ public class ShoppingCartController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @PostMapping("/create/{id}/{quantity}")
     public ResponseEntity<?> createCart( @PathVariable Integer id, @PathVariable Integer quantity) {
         try {
@@ -119,10 +120,9 @@ public class ShoppingCartController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCart(@PathVariable Integer id) {
-
         try {
             iShoppingCartService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);

@@ -8,6 +8,7 @@ import com.example.vencofan.service.IShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class OrderController {
     private IShoppingCartService iShoppingCartService;
     @Autowired
     private ICustomerService iCustomerService;
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @PostMapping("")
     public ResponseEntity<?> createOrder() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,6 +42,7 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @GetMapping("")
     public ResponseEntity<List<Bills>> getHistory() {
         try {
@@ -54,6 +57,7 @@ public class OrderController {
 
 
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     @GetMapping("/detail")
     public ResponseEntity<List<BillDetail>> getHistoryDetail(@RequestParam("id") Integer id) {
         try {

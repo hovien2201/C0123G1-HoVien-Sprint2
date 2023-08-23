@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../header.css'
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
-
+import store from 'store2';
 export function Header() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState();
@@ -108,7 +108,8 @@ const [expanded, setExpanded] = useState(false);
                           <i class="bi bi-person" style={{ fontSize: '120%', }}></i>{username}
                         </DropdownToggle>
                         <DropdownMenu className="abc">
-
+                        <Link to="/info" className="dropdown-item "
+                            ><i class="bi bi-info-square" style={{fontSize:"110%"}}> Information</i></Link>
                           <Link to="/history" className="dropdown-item "
                             ><i class="bi bi-card-list" style={{fontSize:"110%"}}> Payment history</i></Link>
                           <Link className="dropdown-item " onClick={() => handlerLogout()}

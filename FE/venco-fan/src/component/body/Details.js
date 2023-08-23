@@ -52,6 +52,7 @@ export function Details() {
     navigate("/")
   }
   useEffect(() => {
+    document.title = "Detail";
     getAllProducts();
   }, [])
   const editQuantity = async (val) => {
@@ -104,6 +105,7 @@ export function Details() {
                         )    
                           )}
                       </p>
+                      <br />
                       <p>{typeProduct.name}</p>
                       <p>Quantity in stock: {product.quantity}</p>
                       <h3 style={{ color: "#3498db" }}>Price: {product.price} $</h3>
@@ -111,7 +113,7 @@ export function Details() {
                         <p style={{ marginRight: "2%" }}>Quantity:</p><div className="d-flex">
                           <button type="button" className="minus" onClick={() => editQuantity(0)}><span>-</span></button>
                           <input value={quantity}
-                            className="input" min="0" max={product.quantity} />
+                            className="input" min="0" max={product.quantity} style={{padding:"0 0"}}/>
                           <button type="button" value="+" className="plus" onClick={() => editQuantity(1)}><span>+</span></button>
                         </div>
                       </div>

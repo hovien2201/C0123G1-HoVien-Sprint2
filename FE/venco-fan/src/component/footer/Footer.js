@@ -1,5 +1,9 @@
+import { toast } from 'react-toastify'
 import '../header.css'
 export function Footer() {
+  const clickMe = () => {
+    toast.success("Thask you so much")
+  }
     return(
         <>
   {/* ======= Contact Section ======= */}
@@ -65,9 +69,7 @@ export function Footer() {
           data-aos-delay={300}
         >
           <form
-            action="forms/contact.php"
-            method="post"
-            role="form"
+            
             className="php-email-form"
           >
             <div className="form-group">
@@ -118,7 +120,7 @@ export function Footer() {
               </div>
             </div>
             <div className="text-center">
-              <button type="submit">Send Message</button>
+              <button type="submit" onClick={() => clickMe()}>Send Message</button>
             </div>
           </form>
         </div>
